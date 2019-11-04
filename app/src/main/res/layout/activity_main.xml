@@ -19,7 +19,6 @@
             android:elevation="@dimen/toolbar_elevation"
             app:popupTheme="@style/AppTheme.PopupOverlay"
             app:title="@string/devices" />
-
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.widget.SwipeRefreshLayout
@@ -27,6 +26,19 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingTop="55dp">
+
+        <FrameLayout
+            android:id="@+id/progressBarFrame"
+            android:layout_width="match_parent"
+            android:layout_height="9dp"            >
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="8dp"
+                android:progress="30" />
+        </FrameLayout>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/devices"

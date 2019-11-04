@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.domotica.domain.Device;
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private SwipeRefreshLayout swipeRefreshLayout;
 
     private List<Device> devices = new ArrayList<>();
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +44,9 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         final Context context = this;
+
+        this.progressBar = findViewById(R.id.progressBar);
+        this.progressBar.setVisibility(View.INVISIBLE);
 
         this.swipeRefreshLayout = findViewById(R.id.devices_refresh);
         this.swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
@@ -121,6 +126,9 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         if (id == R.id.action_device_search) {
+            this.progressBar.setVisibility(View.VISIBLE);
+            this.progressBar.setProgress(0);
+
             new DeviceSearchTask(this, new OnDeviceFound() {
                 @Override
                 public void onDeviceFounded(Device device) {
@@ -128,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
                     devices.add(device);
                     adapter.notifyDataSetChanged();
                 }
-            }).execute();
+            }, progressBar).execute();
 
             Toast.makeText(this, "Buscando dispositivos en segundo plano", Toast.LENGTH_SHORT);
         }
