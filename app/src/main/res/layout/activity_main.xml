@@ -21,16 +21,17 @@
             app:title="@string/devices" />
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/devices_refresh"
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         android:paddingTop="55dp">
 
         <FrameLayout
             android:id="@+id/progressBarFrame"
             android:layout_width="match_parent"
-            android:layout_height="9dp"            >
+            android:layout_height="9dp">
 
             <ProgressBar
                 android:id="@+id/progressBar"
@@ -40,15 +41,21 @@
                 android:progress="30" />
         </FrameLayout>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/devices"
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/devices_refresh"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="@dimen/default_padding"
-            android:scrollbars="vertical">
+            android:layout_height="match_parent">
 
-        </android.support.v7.widget.RecyclerView>
-    </android.support.v4.widget.SwipeRefreshLayout>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/devices"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/default_padding"
+                android:scrollbars="vertical">
+
+            </android.support.v7.widget.RecyclerView>
+        </android.support.v4.widget.SwipeRefreshLayout>
+    </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
