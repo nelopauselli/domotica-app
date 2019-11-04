@@ -21,6 +21,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.domotica.domain.Device;
+import com.example.domotica.repositories.DeviceRepository;
 import com.example.domotica.tasks.DeviceSearchTask;
 import com.example.domotica.tasks.OnDeviceFound;
 
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager layoutManager;
     private SwipeRefreshLayout swipeRefreshLayout;
 
+    private DeviceRepository deviceRepository = new DeviceRepository(this);
     private List<Device> devices = new ArrayList<>();
     private ProgressBar progressBar;
 
@@ -108,6 +110,7 @@ public class MainActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
+        devices = deviceRepository.list();
         adapter = new DevicesAdapter(devices);
         recyclerView.setAdapter(adapter);
     }
@@ -133,6 +136,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onDeviceFounded(Device device) {
                     Log.d("MainActivity", "Nuevo dispositivo encontrado");
+                    deviceRepository.save(device);
                     devices.add(device);
                     adapter.notifyDataSetChanged();
                 }
