@@ -10,4 +10,9 @@
     <string name="device_name">Nombre del dispositivo</string>
     <string name="device_ip">IP del dispositivo</string>
     <string name="device_search">Buscar Dispositivos</string>
+    <string name="title_activity_device">DeviceActivity</string>
+    <string name="device_state">Estado</string>
+    <string name="state_connecting">Conectando</string>
+    <string name="state_connected">Conectado</string>
+    <string name="state_error">Error</string>
 </resources>

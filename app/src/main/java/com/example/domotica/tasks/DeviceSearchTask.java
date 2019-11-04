@@ -46,7 +46,7 @@ public class DeviceSearchTask extends AsyncTask<Void, Integer, Void> {
                 JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Log.d(getClass().getSimpleName(), "Response is: " + response);
+                        Log.d("DeviceSearchTask", "Response is: " + response);
 
                         try {
                             Device device = new Device();

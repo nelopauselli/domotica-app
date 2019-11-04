@@ -24,21 +24,11 @@ public class DeviceRepository extends Repository {
     public List<Device> list() {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
-        // Define a projection that specifies which columns from the database
-        // you will actually use after this query.
-        String[] projection = {
-                DeviceContract.DeviceEntry._ID,
-                DeviceContract.DeviceEntry.COLUMN_NAME_NAME,
-                DeviceContract.DeviceEntry.COLUMN_NAME_IP
-        };
-
-        // How you want the results sorted in the resulting Cursor
-        String sortOrder =
-                DeviceContract.DeviceEntry.COLUMN_NAME_NAME + " DESC";
+        String sortOrder = DeviceContract.DeviceEntry.COLUMN_NAME_NAME + " DESC";
 
         Cursor cursor = db.query(
                 DeviceContract.DeviceEntry.TABLE_NAME,   // The table to query
-                projection,             // The array of columns to return (pass null to get all)
+                null,             // The array of columns to return (pass null to get all)
                 null,              // The columns for the WHERE clause
                 null,          // The values for the WHERE clause
                 null,                   // don't group the rows
@@ -48,7 +38,7 @@ public class DeviceRepository extends Repository {
 
         List<Device> devices = new ArrayList<>();
         while (cursor.moveToNext()) {
-            Device device=new Device();
+            Device device = new Device();
             device.ID = cursor.getLong(cursor.getColumnIndexOrThrow(DeviceContract.DeviceEntry._ID));
             device.Name = cursor.getString(cursor.getColumnIndexOrThrow(DeviceContract.DeviceEntry.COLUMN_NAME_NAME));
             device.Ip = cursor.getString(cursor.getColumnIndexOrThrow(DeviceContract.DeviceEntry.COLUMN_NAME_IP));
@@ -72,5 +62,33 @@ public class DeviceRepository extends Repository {
         // Insert the new row, returning the primary key value of the new row
         long newRowId = db.insert(DeviceContract.DeviceEntry.TABLE_NAME, null, values);
         device.ID = newRowId;
+    }
+
+    public Device get(long deviceID) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+        String selection = DeviceContract.DeviceEntry._ID + " = ?";
+        String[] selectionArgs = {String.valueOf(deviceID)};
+
+        Cursor cursor = db.query(
+                DeviceContract.DeviceEntry.TABLE_NAME,   // The table to query
+                null,             // The array of columns to return (pass null to get all)
+                selection,              // The columns for the WHERE clause
+                selectionArgs,          // The values for the WHERE clause
+                null,                   // don't group the rows
+                null,                   // don't filter by row groups
+                null               // The sort order
+        );
+
+        Device device = null;
+        if (cursor.moveToNext()) {
+            device = new Device();
+            device.ID = cursor.getLong(cursor.getColumnIndexOrThrow(DeviceContract.DeviceEntry._ID));
+            device.Name = cursor.getString(cursor.getColumnIndexOrThrow(DeviceContract.DeviceEntry.COLUMN_NAME_NAME));
+            device.Ip = cursor.getString(cursor.getColumnIndexOrThrow(DeviceContract.DeviceEntry.COLUMN_NAME_IP));
+        }
+        cursor.close();
+
+        return device;
     }
 }

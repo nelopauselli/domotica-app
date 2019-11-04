@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
 
         devices = deviceRepository.list();
-        adapter = new DevicesAdapter(devices);
+        adapter = new DevicesAdapter(this, devices);
         recyclerView.setAdapter(adapter);
     }
 
