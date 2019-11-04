@@ -11,13 +11,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.domotica.domain.Device;
+import com.example.domotica.tasks.DeviceSearchTask;
+import com.example.domotica.tasks.OnDeviceFound;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -115,6 +119,18 @@ public class MainActivity extends AppCompatActivity {
 
         if (id == R.id.action_settings) {
             return true;
+        }
+        if (id == R.id.action_device_search) {
+            new DeviceSearchTask(this, new OnDeviceFound() {
+                @Override
+                public void onDeviceFounded(Device device) {
+                    Log.d("MainActivity", "Nuevo dispositivo encontrado");
+                    devices.add(device);
+                    adapter.notifyDataSetChanged();
+                }
+            }).execute();
+
+            Toast.makeText(this, "Buscando dispositivos en segundo plano", Toast.LENGTH_SHORT);
         }
 
         return super.onOptionsItemSelected(item);
